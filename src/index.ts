@@ -36,6 +36,7 @@ export {
   type SwitchProps,
 } from "./components/Choice";
 export { Select } from "./components/Select";
+export { Menu } from "./components/Menu";
 export { Tabs } from "./components/Tabs";
 export { Dialog } from "./components/Dialog";
 export {

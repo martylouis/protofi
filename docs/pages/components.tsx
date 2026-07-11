@@ -15,6 +15,7 @@ import {
   Field,
   ImagePlaceholder,
   Input,
+  Menu,
   Radio,
   RadioGroup,
   Select,
@@ -578,6 +579,150 @@ export function DividerDocs() {
           <Divider label="Or continue with" />
         </div>
       </Example>
+    </div>
+  );
+}
+
+export function MenuDocs() {
+  const [showArchived, setShowArchived] = useState(true);
+  const [sort, setSort] = useState("name");
+
+  return (
+    <div className="space-y-8">
+      <PageHeader title="Menu">
+        Base UI Menu: keyboard navigation, typeahead, checkbox and radio
+        items, and nested submenus for free. Popup folds in Portal and
+        Positioner, same shape as Select; pass side and align to reposition.
+      </PageHeader>
+      <Example
+        title="Actions menu"
+        code={`<Menu.Root>
+  <Menu.Trigger render={<Button>Actions ▾</Button>} />
+  <Menu.Popup align="start">
+    <Menu.Item>Rename</Menu.Item>
+    <Menu.Item>Duplicate</Menu.Item>
+    <Menu.SubmenuRoot>
+      <Menu.SubmenuTrigger>Move to…</Menu.SubmenuTrigger>
+      <Menu.Popup>
+        <Menu.Item>Inbox</Menu.Item>
+        <Menu.Item>Archive</Menu.Item>
+      </Menu.Popup>
+    </Menu.SubmenuRoot>
+    <Menu.Separator />
+    <Menu.Item className="font-bold">Delete…</Menu.Item>
+  </Menu.Popup>
+</Menu.Root>`}
+      >
+        <Menu.Root>
+          <Menu.Trigger render={<Button>Actions ▾</Button>} />
+          <Menu.Popup align="start">
+            <Menu.Item>Rename</Menu.Item>
+            <Menu.Item>Duplicate</Menu.Item>
+            <Menu.SubmenuRoot>
+              <Menu.SubmenuTrigger>Move to…</Menu.SubmenuTrigger>
+              <Menu.Popup>
+                <Menu.Item>Inbox</Menu.Item>
+                <Menu.Item>Archive</Menu.Item>
+                <Menu.Item>Trash</Menu.Item>
+              </Menu.Popup>
+            </Menu.SubmenuRoot>
+            <Menu.Separator />
+            <Menu.Item className="font-bold">Delete…</Menu.Item>
+          </Menu.Popup>
+        </Menu.Root>
+      </Example>
+      <Example
+        title="Checkbox and radio items"
+        code={`<Menu.Popup>
+  <Menu.Group>
+    <Menu.GroupLabel>View</Menu.GroupLabel>
+    <Menu.CheckboxItem
+      checked={showArchived}
+      onCheckedChange={setShowArchived}
+      closeOnClick={false}
+    >
+      Show archived
+    </Menu.CheckboxItem>
+  </Menu.Group>
+  <Menu.Separator />
+  <Menu.RadioGroup value={sort} onValueChange={setSort}>
+    <Menu.GroupLabel>Sort by</Menu.GroupLabel>
+    <Menu.RadioItem value="name" closeOnClick={false}>Name</Menu.RadioItem>
+    <Menu.RadioItem value="date" closeOnClick={false}>Date</Menu.RadioItem>
+  </Menu.RadioGroup>
+</Menu.Popup>`}
+      >
+        <Menu.Root>
+          <Menu.Trigger render={<Button>View options ▾</Button>} />
+          <Menu.Popup align="start">
+            <Menu.Group>
+              <Menu.GroupLabel>View</Menu.GroupLabel>
+              <Menu.CheckboxItem
+                checked={showArchived}
+                onCheckedChange={setShowArchived}
+                closeOnClick={false}
+              >
+                Show archived
+              </Menu.CheckboxItem>
+            </Menu.Group>
+            <Menu.Separator />
+            <Menu.RadioGroup value={sort} onValueChange={setSort}>
+              <Menu.GroupLabel>Sort by</Menu.GroupLabel>
+              <Menu.RadioItem value="name" closeOnClick={false}>
+                Name
+              </Menu.RadioItem>
+              <Menu.RadioItem value="date" closeOnClick={false}>
+                Date
+              </Menu.RadioItem>
+              <Menu.RadioItem value="size" closeOnClick={false}>
+                Size
+              </Menu.RadioItem>
+            </Menu.RadioGroup>
+          </Menu.Popup>
+        </Menu.Root>
+      </Example>
+      <SectionTitle>Parts</SectionTitle>
+      <PropsTable
+        props={[
+          {
+            name: "Menu.Root / Trigger",
+            type: "part",
+            description:
+              "Base UI pass-throughs; use render={<Button/>} on Trigger.",
+          },
+          {
+            name: "Menu.Popup",
+            type: "part",
+            default: "sideOffset=4",
+            description:
+              "Includes Portal + Positioner; side / align / sideOffset forward to the Positioner.",
+          },
+          {
+            name: "Menu.Item / LinkItem",
+            type: "part",
+            description:
+              "Highlighted row inverts to ink. LinkItem renders an anchor.",
+          },
+          {
+            name: "Menu.CheckboxItem / RadioItem",
+            type: "part",
+            description:
+              "Left-gutter ✓ / ● marks; pass closeOnClick={false} to keep the menu open.",
+          },
+          {
+            name: "Menu.SubmenuRoot / SubmenuTrigger",
+            type: "part",
+            description:
+              "Nest a full Menu.Popup inside; trigger row gets a trailing ▸.",
+          },
+          {
+            name: "Menu.Group / GroupLabel / Separator",
+            type: "part",
+            description:
+              "Sectioning within the popup. GroupLabel must sit inside a Group or RadioGroup.",
+          },
+        ]}
+      />
     </div>
   );
 }

@@ -9,11 +9,14 @@ import {
   DividerDocs,
   DrawerDocs,
   FormDocs,
+  MenuDocs,
   PlaceholderDocs,
   TableDocs,
   TabsDocs,
 } from "./components";
 import { SwitcherDocs, UseVariantDocs, VariantsDocs } from "./prototypes";
+import { TokensDocs } from "./tokens";
+import { TypographyDocs } from "./typography";
 
 export interface DocPage {
   slug: string;
@@ -25,6 +28,8 @@ export interface DocPage {
 export const PAGES: DocPage[] = [
   { slug: "introduction", title: "Introduction", section: "Guide", render: Introduction },
   { slug: "principles", title: "Principles", section: "Guide", render: Principles },
+  { slug: "tokens", title: "Design tokens", section: "Guide", render: TokensDocs },
+  { slug: "typography", title: "Typography", section: "Guide", render: TypographyDocs },
 
   { slug: "button", title: "Button", section: "Components", render: ButtonDocs },
   { slug: "forms", title: "Field / Input / Select", section: "Components", render: FormDocs },
@@ -37,6 +42,7 @@ export const PAGES: DocPage[] = [
   { slug: "divider", title: "Divider", section: "Components", render: DividerDocs },
   { slug: "dialog", title: "Dialog", section: "Components", render: DialogDocs },
   { slug: "drawer", title: "Drawer", section: "Components", render: DrawerDocs },
+  { slug: "menu", title: "Menu", section: "Components", render: MenuDocs },
 
   { slug: "variants", title: "Variants", section: "Prototypes", render: VariantsDocs },
   { slug: "switcher", title: "PrototypeSwitcher", section: "Prototypes", render: SwitcherDocs },
