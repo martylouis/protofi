@@ -27,6 +27,7 @@ Default path: `docs/prototypes/<name>.html`, kebab-case, named after the thing b
 Compose the page from Component recipes inside the Template skeleton. Rules:
 
 - **Copy recipe classes exactly.** Layout (flex, grid, spacing, widths) is yours; component classes are not. A Button that doesn't match the recipe is a bug.
+- **Icons never stand in for controls.** Lucide icons are decorative glyphs beside text. Anything interactive is built from its Component recipe: a `toggle-left`/`toggle-right` icon is not a Switch, `square-check` is not a Checkbox, `circle-dot` is not a Radio, `chevron-down` is not a Select.
 - **Grayscale only.** Every color comes from the token vocabulary in TEMPLATE.md. No other colors, no shadows, no gradients, no radius beyond `rounded-lofi` — the design must look unfinished so nobody argues about color. (The States switcher bar is tooling and is exempt.)
 - **Realistic copy, placeholder imagery.** Write plausible names, labels, and data ("Grace Hopper", "Invoice #2041 — overdue"), never lorem ipsum. Where an image or chart would go, use ImagePlaceholder or bg-hatch, never a real image.
 - **Behavior only where it sells the flow.** Dialogs open, tabs switch, menus drop — via the recipes' native-element patterns. No state management, no fetch, no persistence; a button that would save just closes the dialog.

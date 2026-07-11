@@ -7,6 +7,7 @@ Conventions used throughout:
 - Interactive behavior comes from native elements (`<dialog>`, `popover`, checked inputs). Small script snippets are included where required (Tabs, Menu positioning); put them at the end of `<body>`, before `lucide.createIcons()`.
 - Keyboard highlight styles from the library map to `hover:` here; full arrow-key navigation inside menus is intentionally not recreated.
 - Mark invalid controls with `aria-invalid="true"`; disabled with the native `disabled` attribute.
+- Never substitute a Lucide icon for a form control (`toggle-left` for Switch, `square-check` for Checkbox, etc.) — build the recipe below.
 
 ## Button
 

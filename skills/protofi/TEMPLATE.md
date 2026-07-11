@@ -3,7 +3,7 @@
 Every Prototype starts from this skeleton. Copy it verbatim, then build inside `<body>`.
 
 - Tailwind v4 runs in the browser via CDN; the `@theme` block below defines every design token. Network access is required to view the file.
-- Lucide icons load from CDN: write `<i data-lucide="users" class="size-4"></i>`, and the `lucide.createIcons()` call at the end of `<body>` swaps them for inline SVG (classes carry over).
+- Lucide icons load from CDN: write `<i data-lucide="users" class="size-4"></i>`, and the `lucide.createIcons()` call at the end of `<body>` swaps them for inline SVG (classes carry over). Icons are decorative only — never use one in place of an interactive Component (a `toggle-*` icon is not a Switch).
 - Keep the closing `<script>lucide.createIcons();</script>` last in `<body>`, after any component behavior scripts.
 
 ```html
