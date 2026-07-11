@@ -5,9 +5,9 @@ import {
   ButtonDocs,
   CardDocs,
   ChoiceDocs,
+  DialogDocs,
   DividerDocs,
   FormDocs,
-  ModalDocs,
   PlaceholderDocs,
   TableDocs,
   TabsDocs,
@@ -26,7 +26,7 @@ export const PAGES: DocPage[] = [
   { slug: "principles", title: "Principles", section: "Guide", render: Principles },
 
   { slug: "button", title: "Button", section: "Components", render: ButtonDocs },
-  { slug: "forms", title: "Form controls", section: "Components", render: FormDocs },
+  { slug: "forms", title: "Field / Input / Select", section: "Components", render: FormDocs },
   { slug: "choice", title: "Checkbox / Radio / Switch", section: "Components", render: ChoiceDocs },
   { slug: "card", title: "Card", section: "Components", render: CardDocs },
   { slug: "badge", title: "Badge", section: "Components", render: BadgeDocs },
@@ -34,7 +34,7 @@ export const PAGES: DocPage[] = [
   { slug: "table", title: "Table", section: "Components", render: TableDocs },
   { slug: "tabs", title: "Tabs", section: "Components", render: TabsDocs },
   { slug: "divider", title: "Divider", section: "Components", render: DividerDocs },
-  { slug: "modal", title: "Modal", section: "Components", render: ModalDocs },
+  { slug: "dialog", title: "Dialog", section: "Components", render: DialogDocs },
 
   { slug: "variants", title: "Variants", section: "Prototypes", render: VariantsDocs },
   { slug: "switcher", title: "PrototypeSwitcher", section: "Prototypes", render: SwitcherDocs },

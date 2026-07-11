@@ -8,6 +8,8 @@ export function Introduction() {
         A low-fidelity component library for throwaway UI prototypes. Grayscale
         primitives that look deliberately unfinished, plus the variant-switching
         machinery to compare radically different layouts on one route.
+        Interactive components are lo-fi skins over Base UI, which supplies
+        focus management, keyboard navigation, positioning, and ARIA.
       </PageHeader>
 
       <div className="space-y-3">
@@ -31,7 +33,8 @@ import "./src/styles.css";`}
               <Badge variant="solid">Components</Badge>
               <p className="text-sm text-ink-soft">
                 Lo-fi primitives: buttons, forms, cards, tables, placeholders.
-                Enough to sketch any screen without deciding what it looks like.
+                Behavior comes from Base UI where it matters (Dialog, Tabs,
+                Select, Field); the skin stays wireframe.
               </p>
               <div className="flex gap-2 pt-1">
                 <Button size="sm">Button</Button>

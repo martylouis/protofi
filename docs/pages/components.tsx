@@ -9,12 +9,13 @@ import {
   CardHeader,
   CardTitle,
   Checkbox,
+  Dialog,
   Divider,
   Field,
   ImagePlaceholder,
   Input,
-  Modal,
   Radio,
+  RadioGroup,
   Select,
   Switch,
   Table,
@@ -36,7 +37,8 @@ export function ButtonDocs() {
       <PageHeader title="Button">
         The one interactive primitive every prototype needs. Three variants,
         three sizes, no icons or loading states: if the prototype question
-        involves those, it is past lo-fi.
+        involves those, it is past lo-fi. Plain native button, no Base UI
+        needed.
       </PageHeader>
       <Example
         title="Variants"
@@ -93,53 +95,107 @@ export function ButtonDocs() {
 export function FormDocs() {
   return (
     <div className="space-y-8">
-      <PageHeader title="Form controls">
-        Input, Textarea, Select, and the Field wrapper that labels them. All
-        take native props; Field adds the uppercase label and an optional hint.
+      <PageHeader title="Field, Input, Select">
+        Built on Base UI Field, Input, and Select. Field.Root associates the
+        label with whatever control sits inside it and owns validation; any
+        Base UI-backed control (Input, Select, Checkbox, Switch) integrates
+        automatically.
       </PageHeader>
       <Example
-        title="Field + controls"
-        code={`<Field label="Name" hint="As it appears on the card">
+        title="Field + Input"
+        code={`<Field.Root>
+  <Field.Label>Name</Field.Label>
   <Input placeholder="Jane Doe" />
-</Field>
-<Field label="Plan">
-  <Select defaultValue="pro">
-    <option value="free">Free</option>
-    <option value="pro">Pro</option>
-  </Select>
-</Field>
-<Field label="Notes">
-  <Textarea placeholder="Anything else…" />
-</Field>`}
+  <Field.Description>As it appears on the card</Field.Description>
+</Field.Root>`}
       >
         <div className="grid max-w-lg gap-4">
-          <Field label="Name" hint="As it appears on the card">
+          <Field.Root>
+            <Field.Label>Name</Field.Label>
             <Input placeholder="Jane Doe" />
-          </Field>
-          <Field label="Plan">
-            <Select defaultValue="pro">
-              <option value="free">Free</option>
-              <option value="pro">Pro</option>
-              <option value="team">Team</option>
-            </Select>
-          </Field>
-          <Field label="Notes">
+            <Field.Description>As it appears on the card</Field.Description>
+          </Field.Root>
+          <Field.Root>
+            <Field.Label>Notes</Field.Label>
             <Textarea placeholder="Anything else…" />
-          </Field>
+          </Field.Root>
         </div>
       </Example>
-      <SectionTitle>Props (Field)</SectionTitle>
+      <Example
+        title="Validation"
+        code={`<Field.Root validationMode="onBlur">
+  <Field.Label>Email</Field.Label>
+  <Input type="email" required placeholder="you@example.com" />
+  <Field.Error match="valueMissing">Required</Field.Error>
+  <Field.Error match="typeMismatch">Not an email address</Field.Error>
+</Field.Root>`}
+      >
+        <div className="max-w-lg">
+          <Field.Root validationMode="onBlur">
+            <Field.Label>Email</Field.Label>
+            <Input type="email" required placeholder="you@example.com" />
+            <Field.Description>
+              Blur the field while empty or invalid to see the error.
+            </Field.Description>
+            <Field.Error match="valueMissing">Required</Field.Error>
+            <Field.Error match="typeMismatch">Not an email address</Field.Error>
+          </Field.Root>
+        </div>
+      </Example>
+      <Example
+        title="Select"
+        code={`<Field.Root>
+  <Field.Label>Plan</Field.Label>
+  <Select.Root defaultValue="pro">
+    <Select.Trigger placeholder="Pick a plan" />
+    <Select.Popup>
+      <Select.Item value="free">Free</Select.Item>
+      <Select.Item value="pro">Pro</Select.Item>
+      <Select.Item value="team">Team</Select.Item>
+    </Select.Popup>
+  </Select.Root>
+</Field.Root>`}
+      >
+        <div className="max-w-lg">
+          <Field.Root>
+            <Field.Label>Plan</Field.Label>
+            <Select.Root defaultValue="pro">
+              <Select.Trigger placeholder="Pick a plan" />
+              <Select.Popup>
+                <Select.Item value="free">Free</Select.Item>
+                <Select.Item value="pro">Pro</Select.Item>
+                <Select.Item value="team">Team</Select.Item>
+              </Select.Popup>
+            </Select.Root>
+          </Field.Root>
+        </div>
+      </Example>
+      <SectionTitle>Parts</SectionTitle>
       <PropsTable
         props={[
           {
-            name: "label",
-            type: "string",
-            description: "Uppercase label above the control.",
+            name: "Field.Root",
+            type: "part",
+            description:
+              "Groups label + control + messages; owns validation (validate, validationMode).",
           },
           {
-            name: "hint",
-            type: "string",
-            description: "Faint helper text below the control.",
+            name: "Field.Label / Description / Error",
+            type: "part",
+            description:
+              "Error takes match: a ValidityState key like \"valueMissing\", or true.",
+          },
+          {
+            name: "Select.Trigger",
+            type: "part",
+            description:
+              "Renders Value + arrow icon; pass placeholder for empty state.",
+          },
+          {
+            name: "Select.Popup",
+            type: "part",
+            description:
+              "Includes Portal + Positioner; put Select.Item children inside.",
           },
         ]}
       />
@@ -151,24 +207,81 @@ export function ChoiceDocs() {
   return (
     <div className="space-y-8">
       <PageHeader title="Checkbox, Radio, Switch">
-        Selection controls drawn from scratch so they match the wireframe
-        aesthetic instead of the browser default. Each takes a label plus
-        native input props.
+        Base UI primitives (hidden inputs, keyboard and form integration) in
+        lo-fi clothes. Each takes a label prop and renders wrapped in a real
+        label element. Radios live inside a RadioGroup, which holds the value.
       </PageHeader>
       <Example
         title="All three"
         code={`<Checkbox label="Email me updates" defaultChecked />
-<Radio name="freq" label="Weekly" defaultChecked />
-<Radio name="freq" label="Monthly" />
+
+<RadioGroup defaultValue="weekly">
+  <Radio value="weekly" label="Weekly" />
+  <Radio value="monthly" label="Monthly" />
+</RadioGroup>
+
 <Switch label="Dark mode" />`}
       >
-        <div className="flex flex-wrap gap-8">
+        <div className="flex flex-wrap items-center gap-8">
           <Checkbox label="Email me updates" defaultChecked />
-          <Radio name="docs-freq" label="Weekly" defaultChecked />
-          <Radio name="docs-freq" label="Monthly" />
+          <RadioGroup defaultValue="weekly">
+            <Radio value="weekly" label="Weekly" />
+            <Radio value="monthly" label="Monthly" />
+          </RadioGroup>
           <Switch label="Dark mode" />
         </div>
       </Example>
+      <Example
+        title="Controlled"
+        code={`const [checked, setChecked] = useState(false);
+
+<Switch
+  label="Notifications"
+  checked={checked}
+  onCheckedChange={setChecked}
+/>`}
+      >
+        <ControlledSwitchDemo />
+      </Example>
+      <SectionTitle>Props</SectionTitle>
+      <PropsTable
+        props={[
+          {
+            name: "label",
+            type: "string",
+            description: "Visible label; the control is wrapped in <label>.",
+          },
+          {
+            name: "checked / defaultChecked",
+            type: "boolean",
+            description: "Checkbox and Switch: controlled / uncontrolled.",
+          },
+          {
+            name: "onCheckedChange",
+            type: "(checked, details) => void",
+            description: "Checkbox and Switch change handler.",
+          },
+          {
+            name: "value / defaultValue / onValueChange",
+            type: "Base UI RadioGroup props",
+            description: "Selection lives on RadioGroup; each Radio has a value.",
+          },
+        ]}
+      />
+    </div>
+  );
+}
+
+function ControlledSwitchDemo() {
+  const [checked, setChecked] = useState(false);
+  return (
+    <div className="flex items-center gap-4">
+      <Switch
+        label="Notifications"
+        checked={checked}
+        onCheckedChange={setChecked}
+      />
+      <Badge>{checked ? "On" : "Off"}</Badge>
     </div>
   );
 }
@@ -254,7 +367,8 @@ export function PlaceholderDocs() {
       <PageHeader title="Placeholders">
         Stand-ins for content the prototype must not decide: images get a
         hatched box with a corner-to-corner X, copy gets greeked gray bars,
-        people get initialed circles.
+        people get initialed circles. Avatar rides on Base UI, so a real image
+        src falls back to initials (or hatch) if it fails to load.
       </PageHeader>
       <Example
         title="ImagePlaceholder"
@@ -278,11 +392,13 @@ export function PlaceholderDocs() {
         title="Avatar"
         code={`<Avatar initials="AL" size="lg" />
 <Avatar initials="GH" />
-<Avatar size="sm" />   {/* empty = hatched */}`}
+<Avatar src="/broken.jpg" initials="KO" />  {/* falls back */}
+<Avatar size="sm" />                        {/* empty = hatched */}`}
       >
         <div className="flex items-center gap-3">
           <Avatar initials="AL" size="lg" />
           <Avatar initials="GH" />
+          <Avatar src="/broken.jpg" initials="KO" />
           <Avatar size="sm" />
         </div>
       </Example>
@@ -303,7 +419,12 @@ export function PlaceholderDocs() {
           {
             name: "initials",
             type: "string",
-            description: "Avatar: text inside the circle; empty shows hatch.",
+            description: "Avatar: fallback text; empty shows hatch.",
+          },
+          {
+            name: "src",
+            type: "string",
+            description: "Avatar: optional image; falls back on error.",
           },
           {
             name: "size",
@@ -374,29 +495,68 @@ export function TableDocs() {
 }
 
 export function TabsDocs() {
-  const [tab, setTab] = useState("All");
   return (
     <div className="space-y-8">
       <PageHeader title="Tabs">
-        Controlled underline tabs. You own the state; the component only draws
-        the strip.
+        Base UI Tabs: roving focus, arrow-key navigation, home/end, and ARIA
+        wiring for free. Panels pair with tabs by value; uncontrolled via
+        defaultValue or controlled via value + onValueChange.
       </PageHeader>
       <Example
-        code={`const [tab, setTab] = useState("All");
-
-<Tabs tabs={["All", "Shipped", "Pending"]} active={tab} onChange={setTab} />`}
+        code={`<Tabs.Root defaultValue="all">
+  <Tabs.List>
+    <Tabs.Tab value="all">All</Tabs.Tab>
+    <Tabs.Tab value="shipped">Shipped</Tabs.Tab>
+    <Tabs.Tab value="pending">Pending</Tabs.Tab>
+  </Tabs.List>
+  <Tabs.Panel value="all">Everything.</Tabs.Panel>
+  <Tabs.Panel value="shipped">Only shipped.</Tabs.Panel>
+  <Tabs.Panel value="pending">Only pending.</Tabs.Panel>
+</Tabs.Root>`}
       >
-        <div className="space-y-4">
-          <Tabs
-            tabs={["All", "Shipped", "Pending"]}
-            active={tab}
-            onChange={setTab}
-          />
-          <p className="text-sm text-ink-soft">
-            Active tab: <strong className="text-ink">{tab}</strong>
-          </p>
-        </div>
+        <Tabs.Root defaultValue="all">
+          <Tabs.List>
+            <Tabs.Tab value="all">All</Tabs.Tab>
+            <Tabs.Tab value="shipped">Shipped</Tabs.Tab>
+            <Tabs.Tab value="pending">Pending</Tabs.Tab>
+          </Tabs.List>
+          <Tabs.Panel value="all">
+            <TextPlaceholder lines={2} />
+          </Tabs.Panel>
+          <Tabs.Panel value="shipped">
+            <TextPlaceholder lines={3} />
+          </Tabs.Panel>
+          <Tabs.Panel value="pending">
+            <TextPlaceholder lines={1} />
+          </Tabs.Panel>
+        </Tabs.Root>
       </Example>
+      <SectionTitle>Parts</SectionTitle>
+      <PropsTable
+        props={[
+          {
+            name: "Tabs.Root",
+            type: "part",
+            description:
+              "defaultValue / value + onValueChange; orientation for vertical tabs.",
+          },
+          {
+            name: "Tabs.List",
+            type: "part",
+            description: "Holds the tab strip; loops focus by default.",
+          },
+          {
+            name: "Tabs.Tab",
+            type: "part",
+            description: "value pairs it with a Panel; data-active when selected.",
+          },
+          {
+            name: "Tabs.Panel",
+            type: "part",
+            description: "value matches its Tab; keepMounted to keep in DOM.",
+          },
+        ]}
+      />
     </div>
   );
 }
@@ -405,7 +565,8 @@ export function DividerDocs() {
   return (
     <div className="space-y-8">
       <PageHeader title="Divider">
-        Horizontal rule, optionally with a centered uppercase label.
+        Base UI Separator (accessible role, orientation aware) drawn as a
+        lo-fi rule, optionally with a centered uppercase label.
       </PageHeader>
       <Example
         code={`<Divider />
@@ -420,39 +581,88 @@ export function DividerDocs() {
   );
 }
 
-export function ModalDocs() {
-  const [open, setOpen] = useState(false);
+export function DialogDocs() {
   return (
     <div className="space-y-8">
-      <PageHeader title="Modal">
-        Dimmed backdrop, hard-bordered panel. Escape and backdrop click both
-        close it. Controlled: you own the open state.
+      <PageHeader title="Dialog">
+        Base UI Dialog: focus trap, scroll lock, Escape, backdrop dismissal,
+        and ARIA for free. Compositional; the Trigger can render your own
+        Button via the render prop.
       </PageHeader>
       <Example
-        code={`const [open, setOpen] = useState(false);
-
-<Button onClick={() => setOpen(true)}>Open modal</Button>
-<Modal open={open} onClose={() => setOpen(false)} title="Confirm action">
-  ...
-</Modal>`}
-      >
-        <Button onClick={() => setOpen(true)}>Open modal</Button>
-      </Example>
-      <Modal open={open} onClose={() => setOpen(false)} title="Confirm action">
-        <div className="space-y-4">
-          <p className="text-sm text-ink-soft">
-            This is a lo-fi modal. Escape or backdrop click closes it.
-          </p>
-          <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button variant="solid" onClick={() => setOpen(false)}>
-              Confirm
-            </Button>
-          </div>
+        code={`<Dialog.Root>
+  <Dialog.Trigger render={<Button>Open dialog</Button>} />
+  <Dialog.Portal>
+    <Dialog.Backdrop />
+    <Dialog.Popup>
+      <Dialog.Header>
+        <Dialog.Title>Confirm action</Dialog.Title>
+        <Dialog.Close aria-label="Close">×</Dialog.Close>
+      </Dialog.Header>
+      <Dialog.Body>
+        <Dialog.Description>
+          This is a lo-fi dialog. Focus is trapped; Escape closes it.
+        </Dialog.Description>
+        <div className="mt-4 flex justify-end gap-2">
+          <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+          <Dialog.Close render={<Button variant="solid">Confirm</Button>} />
         </div>
-      </Modal>
+      </Dialog.Body>
+    </Dialog.Popup>
+  </Dialog.Portal>
+</Dialog.Root>`}
+      >
+        <Dialog.Root>
+          <Dialog.Trigger render={<Button>Open dialog</Button>} />
+          <Dialog.Portal>
+            <Dialog.Backdrop />
+            <Dialog.Popup>
+              <Dialog.Header>
+                <Dialog.Title>Confirm action</Dialog.Title>
+                <Dialog.Close aria-label="Close">×</Dialog.Close>
+              </Dialog.Header>
+              <Dialog.Body>
+                <Dialog.Description>
+                  This is a lo-fi dialog. Focus is trapped; Escape closes it.
+                </Dialog.Description>
+                <div className="mt-4 flex justify-end gap-2">
+                  <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+                  <Dialog.Close render={<Button variant="solid">Confirm</Button>} />
+                </div>
+              </Dialog.Body>
+            </Dialog.Popup>
+          </Dialog.Portal>
+        </Dialog.Root>
+      </Example>
+      <SectionTitle>Parts</SectionTitle>
+      <PropsTable
+        props={[
+          {
+            name: "Dialog.Root",
+            type: "part",
+            description:
+              "defaultOpen / open + onOpenChange; modal defaults to true.",
+          },
+          {
+            name: "Dialog.Trigger / Close",
+            type: "part",
+            description:
+              "Buttons; use render={<Button/>} to reuse the lo-fi Button.",
+          },
+          {
+            name: "Dialog.Backdrop / Popup",
+            type: "part",
+            description:
+              "Styled: dimmed backdrop, centered hard-bordered panel.",
+          },
+          {
+            name: "Dialog.Header / Body",
+            type: "part",
+            description:
+              "Protofi-only layout helpers (plain divs) for the title bar and padded content.",
+          },
+        ]}
+      />
     </div>
   );
 }
