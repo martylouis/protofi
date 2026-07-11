@@ -19,10 +19,12 @@ export function DashboardShellDocs() {
   return (
     <div className="space-y-8">
       <PageHeader title="Dashboard Shell">
-        A block, not a component: it is not exported from the library. Copy the
-        source below into your prototype and hack it up. App-frame layout with
-        an inverted sidebar (grouped nav, user menu), a top bar with
-        breadcrumbs, and an independently scrolling content area.
+        A block, not a component: it is not exported from the library. Blocks
+        reach prototypes through the protofi skill, which carries a vanilla
+        HTML recipe of this design and pastes it into the prototype to be
+        hacked up. App-frame layout with an inverted sidebar (grouped nav,
+        user menu), a top bar with breadcrumbs, and an independently
+        scrolling content area.
       </PageHeader>
 
       <Example title="Preview" previewClassName="overflow-hidden p-0">
@@ -32,23 +34,21 @@ export function DashboardShellDocs() {
       </Example>
 
       <section className="space-y-3">
-        <SectionTitle>How to use</SectionTitle>
+        <SectionTitle>How this block ships</SectionTitle>
         <ol className="max-w-prose list-decimal space-y-1 pl-5 text-sm text-ink-soft">
           <li>
-            Copy the source below into a new <code className="font-mono text-ink">.tsx</code> file
-            in your prototype (it is TSX, not HTML).
+            This file (<code className="font-mono text-ink">docs/blocks/dashboard-shell.tsx</code>)
+            is the source of truth for the design: edit and preview it here, with real rendering.
           </li>
           <li>
-            Adjust the <code className="font-mono text-ink">"../../src"</code> import to point at
-            Protofi from your file's location.
+            <code className="font-mono text-ink">/protofi-sync</code> derives a vanilla HTML recipe
+            from it in <code className="font-mono text-ink">skills/protofi/BLOCKS.md</code>. Run it
+            after changing this file.
           </li>
           <li>
-            Render it from an entry file: import{" "}
-            <code className="font-mono text-ink">src/styles.css</code> once, then{" "}
-            <code className="font-mono text-ink">{"createRoot(...).render(<DashboardShell />)"}</code>.
-            See <code className="font-mono text-ink">test/test.tsx</code> for a working example.
+            The protofi skill pastes that recipe into single-page HTML prototypes, where it gets
+            hacked up freely: the sidebar toggle is decoration; prototypes wire it if they need it.
           </li>
-          <li>Hack it up: the sidebar toggle is decoration; wire it if you need it.</li>
         </ol>
       </section>
 

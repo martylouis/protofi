@@ -19,10 +19,12 @@ import {
 } from "../../src";
 
 /**
- * Dashboard Shell — a copy-paste block, not a library component.
+ * Dashboard Shell — a block, not a library component.
  * Inverted sidebar with grouped nav and a user menu; top bar with
- * breadcrumbs; scrollable content area. Copy it into your prototype
- * (adjust the import path) and hack it up.
+ * breadcrumbs; scrollable content area.
+ *
+ * Source of truth for the skill's Dashboard Shell recipe
+ * (skills/protofi/BLOCKS.md): edit here, then run /protofi-sync.
  */
 
 function NavItem({
