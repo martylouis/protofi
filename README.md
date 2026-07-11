@@ -15,6 +15,7 @@ Open http://localhost:3000. Sidebar-layout doc site (`docs/`), built with the li
 
 - Guide: Introduction, Principles (UX/UI rules distilled from the skill)
 - Components: one page per primitive, live examples + code + props
+- Blocks: copy-paste compositions (see below)
 - Prototypes: `Variants` (live demo with the floating switcher), `PrototypeSwitcher`, `useVariant`
 
 ## Library
@@ -23,7 +24,9 @@ Import from `src/index.ts`:
 
 ### Lo-fi primitives (ours, no behavior to outsource)
 
-`Button`, `Textarea`, `Card` (+ `CardHeader`/`CardTitle`/`CardBody`/`CardFooter`), `Badge`, `ImagePlaceholder`, `TextPlaceholder`, `Table` (+ `THead`/`TBody`/`TR`/`TH`/`TD`)
+`Button`, `Textarea`, `Card` (+ `CardHeader`/`CardTitle`/`CardBody`/`CardFooter`), `Badge`, `ImagePlaceholder`, `TextPlaceholder`, `Table` (+ `THead`/`TBody`/`TR`/`TH`/`TD`), `Breadcrumbs.*` (Root/Item)
+
+Hand-rolled components still follow the Base UI part anatomy (namespace object with `Root` and parts) — see `Breadcrumbs`.
 
 ### Base UI-backed, lo-fi styled
 
@@ -31,6 +34,14 @@ Import from `src/index.ts`:
 - Compositional parts: `Dialog.*` (Root/Trigger/Portal/Backdrop/Popup/Header/Title/Description/Close/Body/Actions), `Drawer.*` (same; `side="right" | "bottom"` on Root drives placement and swipe-dismiss), `Tabs.*` (Root/List/Tab/Panel), `Select.*` (Root/Trigger/Popup/Item + unstyled Base parts), `Menu.*` (Root/Trigger/Popup/Item/CheckboxItem/RadioItem/Submenu*/Separator/GroupLabel), `Field.*` (Root/Label/Description/Error, with validation)
 
 Tokens live in `src/styles.css` (`@theme` block): ink/paper grayscale, 2px radius, hatch pattern. State styling uses Base UI data attributes (`data-checked`, `data-active`, `data-highlighted`, ...).
+
+### Blocks (copy-paste, not exported)
+
+One-off compositions documented in the docs "Blocks" section. Source lives in `docs/blocks/`; the docs page renders the real file and inlines its source via Bun's `with { type: "text" }` import, so preview and snippet cannot drift. Copy into a prototype and hack it up.
+
+- Dashboard Shell (`/dashboard-shell`) — app frame: inverted sidebar (grouped nav, user `Menu`), top bar (breadcrumbs, unbound `Switch`), scrollable content
+
+Blocks and prototype content may use [lucide-react](https://lucide.dev) icons; library components keep hand-rolled inline SVGs.
 
 ### Prototype infrastructure
 

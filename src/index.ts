@@ -21,6 +21,11 @@ export {
   type AvatarProps,
 } from "./components/Placeholder";
 export { Table, THead, TBody, TR, TH, TD } from "./components/Table";
+export {
+  Breadcrumbs,
+  type BreadcrumbsRootProps,
+  type BreadcrumbsItemProps,
+} from "./components/Breadcrumbs";
 
 // Base UI-backed components, lo-fi styled
 export { Input, Textarea, type InputProps } from "./components/Input";

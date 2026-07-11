@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Introduction, Principles } from "./guide";
 import {
   BadgeDocs,
+  BreadcrumbsDocs,
   ButtonDocs,
   CardDocs,
   ChoiceDocs,
@@ -15,13 +16,14 @@ import {
   TabsDocs,
 } from "./components";
 import { SwitcherDocs, UseVariantDocs, VariantsDocs } from "./prototypes";
+import { DashboardShellDocs } from "./blocks";
 import { TokensDocs } from "./tokens";
 import { TypographyDocs } from "./typography";
 
 export interface DocPage {
   slug: string;
   title: string;
-  section: "Guide" | "Components" | "Prototypes";
+  section: "Guide" | "Components" | "Blocks" | "Prototypes";
   render: () => ReactNode;
 }
 
@@ -43,10 +45,13 @@ export const PAGES: DocPage[] = [
   { slug: "dialog", title: "Dialog", section: "Components", render: DialogDocs },
   { slug: "drawer", title: "Drawer", section: "Components", render: DrawerDocs },
   { slug: "menu", title: "Menu", section: "Components", render: MenuDocs },
+  { slug: "breadcrumbs", title: "Breadcrumbs", section: "Components", render: BreadcrumbsDocs },
+
+  { slug: "dashboard-shell", title: "Dashboard Shell", section: "Blocks", render: DashboardShellDocs },
 
   { slug: "variants", title: "Variants", section: "Prototypes", render: VariantsDocs },
   { slug: "switcher", title: "PrototypeSwitcher", section: "Prototypes", render: SwitcherDocs },
   { slug: "use-variant", title: "useVariant", section: "Prototypes", render: UseVariantDocs },
 ];
 
-export const SECTIONS = ["Guide", "Components", "Prototypes"] as const;
+export const SECTIONS = ["Guide", "Components", "Blocks", "Prototypes"] as const;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import {
   Avatar,
   Badge,
+  Breadcrumbs,
   Button,
   Card,
   CardBody,
@@ -559,6 +560,49 @@ export function TabsDocs() {
           },
         ]}
       />
+    </div>
+  );
+}
+
+export function BreadcrumbsDocs() {
+  return (
+    <div className="space-y-8">
+      <PageHeader title="Breadcrumbs">
+        Hand-rolled trail (Base UI has no Breadcrumb part) following the Base
+        UI part anatomy. Separators are CSS-injected; an Item without href is
+        the current page and gets aria-current.
+      </PageHeader>
+      <Example
+        code={`<Breadcrumbs.Root>
+  <Breadcrumbs.Item href="#">Dashboard</Breadcrumbs.Item>
+  <Breadcrumbs.Item href="#">Settings</Breadcrumbs.Item>
+  <Breadcrumbs.Item>Profile</Breadcrumbs.Item>
+</Breadcrumbs.Root>`}
+      >
+        <Breadcrumbs.Root>
+          <Breadcrumbs.Item href="#">Dashboard</Breadcrumbs.Item>
+          <Breadcrumbs.Item href="#">Settings</Breadcrumbs.Item>
+          <Breadcrumbs.Item>Profile</Breadcrumbs.Item>
+        </Breadcrumbs.Root>
+      </Example>
+      <section className="space-y-3">
+        <SectionTitle>Breadcrumbs.Item props</SectionTitle>
+        <PropsTable
+          props={[
+            {
+              name: "href",
+              type: "string",
+              description:
+                "Link target. Omit on the last item to render it as the current page with aria-current=\"page\".",
+            },
+            {
+              name: "className",
+              type: "string",
+              description: "Extra classes for the list item.",
+            },
+          ]}
+        />
+      </section>
     </div>
   );
 }
