@@ -90,6 +90,19 @@ function Body({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return <div className={cx("p-4", className)} {...props} />;
 }
 
+/** Action bar pinned at the bottom. Plain div. */
+function Actions({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cx(
+        "flex items-center justify-end gap-2 border-t-2 border-line-soft px-4 py-2.5",
+        className,
+      )}
+      {...props}
+    />
+  );
+}
+
 export const Dialog = {
   Root: BaseDialog.Root,
   Trigger: BaseDialog.Trigger,
@@ -101,4 +114,5 @@ export const Dialog = {
   Description,
   Close,
   Body,
+  Actions,
 };

@@ -7,6 +7,7 @@ import {
   ChoiceDocs,
   DialogDocs,
   DividerDocs,
+  DrawerDocs,
   FormDocs,
   PlaceholderDocs,
   TableDocs,
@@ -35,6 +36,7 @@ export const PAGES: DocPage[] = [
   { slug: "tabs", title: "Tabs", section: "Components", render: TabsDocs },
   { slug: "divider", title: "Divider", section: "Components", render: DividerDocs },
   { slug: "dialog", title: "Dialog", section: "Components", render: DialogDocs },
+  { slug: "drawer", title: "Drawer", section: "Components", render: DrawerDocs },
 
   { slug: "variants", title: "Variants", section: "Prototypes", render: VariantsDocs },
   { slug: "switcher", title: "PrototypeSwitcher", section: "Prototypes", render: SwitcherDocs },

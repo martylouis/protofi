@@ -28,7 +28,7 @@ Import from `src/index.ts`:
 ### Base UI-backed, lo-fi styled
 
 - Simple wrappers: `Checkbox`, `Radio` + `RadioGroup`, `Switch` (label prop), `Input`, `Divider` (Separator), `Avatar` (image fallback)
-- Compositional parts: `Dialog.*` (Root/Trigger/Portal/Backdrop/Popup/Header/Title/Description/Close/Body), `Tabs.*` (Root/List/Tab/Panel), `Select.*` (Root/Trigger/Popup/Item + unstyled Base parts), `Field.*` (Root/Label/Description/Error, with validation)
+- Compositional parts: `Dialog.*` (Root/Trigger/Portal/Backdrop/Popup/Header/Title/Description/Close/Body/Actions), `Drawer.*` (same; `side="right" | "bottom"` on Root drives placement and swipe-dismiss), `Tabs.*` (Root/List/Tab/Panel), `Select.*` (Root/Trigger/Popup/Item + unstyled Base parts), `Field.*` (Root/Label/Description/Error, with validation)
 
 Tokens live in `src/styles.css` (`@theme` block): ink/paper grayscale, 2px radius, hatch pattern. State styling uses Base UI data attributes (`data-checked`, `data-active`, `data-highlighted`, ...).
 

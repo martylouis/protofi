@@ -38,6 +38,11 @@ export {
 export { Select } from "./components/Select";
 export { Tabs } from "./components/Tabs";
 export { Dialog } from "./components/Dialog";
+export {
+  Drawer,
+  type DrawerRootProps,
+  type DrawerSide,
+} from "./components/Drawer";
 export { Divider, type DividerProps } from "./components/Divider";
 
 // Prototype infrastructure (variant switching per the prototype skill)

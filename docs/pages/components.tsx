@@ -11,6 +11,7 @@ import {
   Checkbox,
   Dialog,
   Divider,
+  Drawer,
   Field,
   ImagePlaceholder,
   Input,
@@ -581,6 +582,141 @@ export function DividerDocs() {
   );
 }
 
+export function DrawerDocs() {
+  return (
+    <div className="space-y-8">
+      <PageHeader title="Drawer">
+        Base UI Drawer in lo-fi clothes: slides in over the page, focus
+        trapped, Escape and backdrop dismiss, swipe-to-dismiss on touch. Set
+        side on Root and placement and swipe direction stay in agreement.
+        Compose Header, Body, and a pinned Actions bar. Snap points and grab
+        handles are deliberately out of scope.
+      </PageHeader>
+      <Example
+        title="Right drawer with header and actions"
+        code={`<Drawer.Root side="right">
+  <Drawer.Trigger render={<Button>Edit user</Button>} />
+  <Drawer.Portal>
+    <Drawer.Backdrop />
+    <Drawer.Popup>
+      <Drawer.Header>
+        <Drawer.Title>Edit user</Drawer.Title>
+        <Drawer.Close aria-label="Close">×</Drawer.Close>
+      </Drawer.Header>
+      <Drawer.Body>…form…</Drawer.Body>
+      <Drawer.Actions>
+        <Drawer.Close render={<Button variant="ghost">Cancel</Button>} />
+        <Button variant="solid">Save</Button>
+      </Drawer.Actions>
+    </Drawer.Popup>
+  </Drawer.Portal>
+</Drawer.Root>`}
+      >
+        <Drawer.Root side="right">
+          <Drawer.Trigger render={<Button>Edit user</Button>} />
+          <Drawer.Portal>
+            <Drawer.Backdrop />
+            <Drawer.Popup>
+              <Drawer.Header>
+                <Drawer.Title>Edit user</Drawer.Title>
+                <Drawer.Close aria-label="Close">×</Drawer.Close>
+              </Drawer.Header>
+              <Drawer.Body className="space-y-4">
+                <Field.Root>
+                  <Field.Label>Name</Field.Label>
+                  <Input defaultValue="Ada Lovelace" />
+                </Field.Root>
+                <Field.Root>
+                  <Field.Label>Role</Field.Label>
+                  <Select.Root defaultValue="admin">
+                    <Select.Trigger />
+                    <Select.Popup>
+                      <Select.Item value="admin">Admin</Select.Item>
+                      <Select.Item value="member">Member</Select.Item>
+                    </Select.Popup>
+                  </Select.Root>
+                </Field.Root>
+                <TextPlaceholder lines={6} />
+              </Drawer.Body>
+              <Drawer.Actions>
+                <Drawer.Close render={<Button variant="ghost">Cancel</Button>} />
+                <Drawer.Close render={<Button variant="solid">Save</Button>} />
+              </Drawer.Actions>
+            </Drawer.Popup>
+          </Drawer.Portal>
+        </Drawer.Root>
+      </Example>
+      <Example
+        title="Bottom sheet (swipe down to dismiss on touch)"
+        code={`<Drawer.Root side="bottom">
+  <Drawer.Trigger render={<Button>Filters</Button>} />
+  <Drawer.Portal>
+    <Drawer.Backdrop />
+    <Drawer.Popup>
+      <Drawer.Header>
+        <Drawer.Title>Filters</Drawer.Title>
+        <Drawer.Close aria-label="Close">×</Drawer.Close>
+      </Drawer.Header>
+      <Drawer.Body>…</Drawer.Body>
+    </Drawer.Popup>
+  </Drawer.Portal>
+</Drawer.Root>`}
+      >
+        <Drawer.Root side="bottom">
+          <Drawer.Trigger render={<Button>Filters</Button>} />
+          <Drawer.Portal>
+            <Drawer.Backdrop />
+            <Drawer.Popup>
+              <Drawer.Header>
+                <Drawer.Title>Filters</Drawer.Title>
+                <Drawer.Close aria-label="Close">×</Drawer.Close>
+              </Drawer.Header>
+              <Drawer.Body className="space-y-4">
+                <Checkbox label="In stock only" defaultChecked />
+                <Divider />
+                <RadioGroup defaultValue="new">
+                  <Radio value="new" label="Newest first" />
+                  <Radio value="price" label="Price" />
+                </RadioGroup>
+              </Drawer.Body>
+            </Drawer.Popup>
+          </Drawer.Portal>
+        </Drawer.Root>
+      </Example>
+      <SectionTitle>Parts</SectionTitle>
+      <PropsTable
+        props={[
+          {
+            name: "Drawer.Root",
+            type: "part",
+            default: 'side="right"',
+            description:
+              'side: "right" | "bottom"; sets swipe-dismiss direction to match. Plus Base UI open/onOpenChange.',
+          },
+          {
+            name: "Drawer.Popup",
+            type: "part",
+            description:
+              "Includes Base UI Viewport + Content; flex column so Body scrolls between Header and Actions.",
+          },
+          {
+            name: "Drawer.Header / Body / Actions",
+            type: "part",
+            description:
+              "Protofi layout helpers (plain divs): title bar, scrollable content, pinned action bar.",
+          },
+          {
+            name: "Drawer.Trigger / Close",
+            type: "part",
+            description:
+              "Buttons; use render={<Button/>} to reuse the lo-fi Button.",
+          },
+        ]}
+      />
+    </div>
+  );
+}
+
 export function DialogDocs() {
   return (
     <div className="space-y-8">
@@ -603,11 +739,11 @@ export function DialogDocs() {
         <Dialog.Description>
           This is a lo-fi dialog. Focus is trapped; Escape closes it.
         </Dialog.Description>
-        <div className="mt-4 flex justify-end gap-2">
-          <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
-          <Dialog.Close render={<Button variant="solid">Confirm</Button>} />
-        </div>
       </Dialog.Body>
+      <Dialog.Actions>
+        <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+        <Dialog.Close render={<Button variant="solid">Confirm</Button>} />
+      </Dialog.Actions>
     </Dialog.Popup>
   </Dialog.Portal>
 </Dialog.Root>`}
@@ -625,11 +761,11 @@ export function DialogDocs() {
                 <Dialog.Description>
                   This is a lo-fi dialog. Focus is trapped; Escape closes it.
                 </Dialog.Description>
-                <div className="mt-4 flex justify-end gap-2">
-                  <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
-                  <Dialog.Close render={<Button variant="solid">Confirm</Button>} />
-                </div>
               </Dialog.Body>
+              <Dialog.Actions>
+                <Dialog.Close render={<Button variant="ghost">Cancel</Button>} />
+                <Dialog.Close render={<Button variant="solid">Confirm</Button>} />
+              </Dialog.Actions>
             </Dialog.Popup>
           </Dialog.Portal>
         </Dialog.Root>
@@ -656,10 +792,10 @@ export function DialogDocs() {
               "Styled: dimmed backdrop, centered hard-bordered panel.",
           },
           {
-            name: "Dialog.Header / Body",
+            name: "Dialog.Header / Body / Actions",
             type: "part",
             description:
-              "Protofi-only layout helpers (plain divs) for the title bar and padded content.",
+              "Protofi-only layout helpers (plain divs): title bar, padded content, pinned action bar.",
           },
         ]}
       />
