@@ -1,8 +1,24 @@
-# Protofi — Prototype Fidelity 2 Design System
+# protofi
 
-TypeScript React component library for low-fidelity prototypes, built on the `.agents/skills/prototype` skill. Grayscale, hard borders, hatched placeholders. Bun + React 19 + Tailwind v4 + [Base UI](https://base-ui.com) (`@base-ui/react`).
+Lo-fi design system for single-page HTML prototypes. Grayscale, hard borders, hatched placeholders — deliberately unfinished-looking so nobody argues about color.
 
-Architecture: Base UI supplies behavior (ARIA, focus traps, keyboard nav, positioning); Protofi supplies the lo-fi skin via `className` and the prototype workflow.
+Two halves:
+
+1. **The skill** (`skills/protofi/`) — the distributable. A portable, zero-dependency agent skill that builds self-contained single-page HTML prototypes anywhere: Tailwind + Lucide via CDN, vanilla JS on native elements (`<dialog>`, popover, checked inputs). Install into any project:
+
+   ```bash
+   npx skills add martylouis/protofi
+   ```
+
+   Then ask your agent for a prototype ("mock up a settings page"). Output lands in `docs/prototypes/<name>.html`, opens directly in a browser, and iterates in place. Supports States (empty/loading/error) and Variants (competing layouts) via a floating switcher.
+
+2. **The workbench** (this repo) — where the design system is developed. A React 19 + Tailwind v4 + [Base UI](https://base-ui.com) component library with a live docs site. Components are designed and iterated here with real rendering, then distilled into the skill's markdown references. Nothing here is a dependency of any prototype.
+
+## How the halves stay in sync
+
+Source of truth is the React library. After changing Components, run the repo-local `protofi-sync` skill: it re-derives the skill's reference files (`TEMPLATE.md`, `COMPONENTS.md`, `BLOCKS.md`, `STATES.md`) from `src/`, mapping Base UI behavior to native-element patterns. Visual parity is exact (identical class strings); behavioral parity is explicitly out of scope — see `docs/adr/0001`.
+
+Vocabulary (Component, Block, Prototype, State, Variant) is defined in `CONTEXT.md`.
 
 ## Run the docs
 
@@ -13,51 +29,37 @@ bun run dev
 
 Open http://localhost:3000. Sidebar-layout doc site (`docs/`), built with the library itself:
 
-- Guide: Introduction, Principles (UX/UI rules distilled from the skill)
+- Guide: Introduction, Principles
 - Components: one page per primitive, live examples + code + props
-- Blocks: copy-paste compositions (see below)
-- Prototypes: `Variants` (live demo with the floating switcher), `PrototypeSwitcher`, `useVariant`
+- Blocks: copy-paste compositions
+- Prototypes: `Variants` demo with the floating switcher
 
 ## Library
 
 Import from `src/index.ts`:
 
-### Lo-fi primitives (ours, no behavior to outsource)
+- **Lo-fi primitives** (no behavior to outsource): `Button`, `Card` (+ Header/Title/Body/Footer), `Badge`, `ImagePlaceholder`, `TextPlaceholder`, `Table` (+ THead/TBody/TR/TH/TD), `Breadcrumbs.*`, `Textarea`
+- **Base UI-backed, lo-fi styled**: `Input`, `Field.*`, `Checkbox`, `Radio` + `RadioGroup`, `Switch`, `Select.*`, `Menu.*`, `Tabs.*`, `Dialog.*`, `Drawer.*`, `Divider`, `Avatar`
+- **Prototype infrastructure**: `useVariant`, `PrototypeSwitcher`, `Variants`
 
-`Button`, `Textarea`, `Card` (+ `CardHeader`/`CardTitle`/`CardBody`/`CardFooter`), `Badge`, `ImagePlaceholder`, `TextPlaceholder`, `Table` (+ `THead`/`TBody`/`TR`/`TH`/`TD`), `Breadcrumbs.*` (Root/Item)
-
-Hand-rolled components still follow the Base UI part anatomy (namespace object with `Root` and parts) — see `Breadcrumbs`.
-
-### Base UI-backed, lo-fi styled
-
-- Simple wrappers: `Checkbox`, `Radio` + `RadioGroup`, `Switch` (label prop), `Input`, `Divider` (Separator), `Avatar` (image fallback)
-- Compositional parts: `Dialog.*` (Root/Trigger/Portal/Backdrop/Popup/Header/Title/Description/Close/Body/Actions), `Drawer.*` (same; `side="right" | "bottom"` on Root drives placement and swipe-dismiss), `Tabs.*` (Root/List/Tab/Panel), `Select.*` (Root/Trigger/Popup/Item + unstyled Base parts), `Menu.*` (Root/Trigger/Popup/Item/CheckboxItem/RadioItem/Submenu*/Separator/GroupLabel), `Field.*` (Root/Label/Description/Error, with validation)
-
-Tokens live in `src/styles.css` (`@theme` block): ink/paper grayscale, 2px radius, hatch pattern. State styling uses Base UI data attributes (`data-checked`, `data-active`, `data-highlighted`, ...).
+Base UI supplies behavior (ARIA, focus traps, keyboard nav, positioning); protofi supplies the skin via `className`. Tokens live in `src/styles.css` (`@theme` block): ink/paper grayscale, 2px radius, hatch pattern.
 
 ### Blocks (copy-paste, not exported)
 
-One-off compositions documented in the docs "Blocks" section. Source lives in `docs/blocks/`; the docs page renders the real file and inlines its source via Bun's `with { type: "text" }` import, so preview and snippet cannot drift. Copy into a prototype and hack it up.
+One-off compositions in `docs/blocks/`; the docs page renders the real file and inlines its source, so preview and snippet cannot drift.
 
-- Dashboard Shell (`/dashboard-shell`) — app frame: inverted sidebar (grouped nav, user `Menu`), top bar (breadcrumbs, unbound `Switch`), scrollable content
+- Dashboard Shell — app frame: inverted sidebar (grouped nav, user menu), top bar (breadcrumbs), scrollable content
 
-Blocks and prototype content may use [lucide-react](https://lucide.dev) icons; library components keep hand-rolled inline SVGs.
+## Repo layout
 
-### Prototype infrastructure
-
-Implements the UI-prototype workflow from the skill:
-
-- `useVariant(keys)` — syncs active variant with `?variant=`, framework-agnostic (History API)
-- `PrototypeSwitcher` — floating bottom bar: arrows, label, keyboard cycling, skips inputs, hidden in production builds
-- `Variants` — one-stop wrapper:
-
-```tsx
-<Variants
-  variants={{
-    A: { name: "Card grid", render: () => <VariantA {...data} /> },
-    B: { name: "Sidebar", render: () => <VariantB {...data} /> },
-  }}
-/>
+```
+skills/protofi/     the portable skill (the product)
+src/                component library (source of truth)
+docs/               docs site (Bun.serve + HTML imports)
+docs/prototypes/    sample prototypes built with the skill
+docs/adr/           architecture decisions
+.agents/skills/     installed dev skills + protofi-sync (repo-local, hidden from npx skills)
+CONTEXT.md          ubiquitous language
 ```
 
 ## Scripts

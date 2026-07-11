@@ -1,111 +1,24 @@
----
-description: Use Bun instead of Node.js, npm, pnpm, or vite.
-globs: "*.ts, *.tsx, *.html, *.css, *.js, *.jsx, package.json"
-alwaysApply: false
----
+# CLAUDE.md
 
-Default to using Bun instead of Node.js.
+## What this repo is
 
-- Use `bun <file>` instead of `node <file>` or `ts-node <file>`
-- Use `bun test` instead of `jest` or `vitest`
-- Use `bun build <file.html|file.ts|file.css>` instead of `webpack` or `esbuild`
-- Use `bun install` instead of `npm install` or `yarn install` or `pnpm install`
-- Use `bun run <script>` instead of `npm run <script>` or `yarn run <script>` or `pnpm run <script>`
-- Use `bunx <package> <command>` instead of `npx <package> <command>`
-- Bun automatically loads .env, so don't use dotenv.
+- Product: the portable `protofi` skill in `skills/protofi/`: builds zero-dependency single-page HTML prototypes (Tailwind + Lucide via CDN, vanilla JS on native elements)
+- Workbench: React 19 + Tailwind v4 + Base UI library in `src/`, docs site in `docs/`: where components are designed; never published, never a prototype dependency
+- Name is **protofi**, lowercase; the dir name "protofi-2" is an accident, never use it in names or copy
 
-## APIs
+## Non-obvious rules
 
-- `Bun.serve()` supports WebSockets, HTTPS, and routes. Don't use `express`.
-- `bun:sqlite` for SQLite. Don't use `better-sqlite3`.
-- `Bun.redis` for Redis. Don't use `ioredis`.
-- `Bun.sql` for Postgres. Don't use `pg` or `postgres.js`.
-- `WebSocket` is built-in. Don't use `ws`.
-- Prefer `Bun.file` over `node:fs`'s readFile/writeFile
-- Bun.$`ls` instead of execa.
+- `src/` is the source of truth; `skills/protofi/*.md` are derived. After changing components/styles/blocks, run `/protofi-sync` (or follow its process): never let the two drift silently
+- Class parity is the contract: skill recipes must carry component class strings exactly; behavioral parity with Base UI is explicitly out of scope (docs/adr/0001)
+- Lo-fi constraints everywhere: grayscale tokens from `src/styles.css` only, no shadows/gradients, radius capped at `rounded-lofi` (2px), realistic copy never lorem ipsum
+- `CONTEXT.md` is a glossary only (Component, Block, Prototype, State, Variant): use these terms precisely; no implementation details in it
+- Repo-local skills: live in `.agents/skills/`, symlinked from `.claude/skills/`, with `metadata.internal: true` in frontmatter so `npx skills add martylouis/protofi` exposes only `protofi`
+- Prototypes generated in this repo go to `docs/prototypes/<name>.html`; iterate in place, don't regenerate
+- Blocks (`docs/blocks/`) are copy-paste compositions, never exported from `src/index.ts`; docs pages inline their real source via `with { type: "text" }` imports so preview and snippet can't drift
 
-## Testing
+## Bun (not Node)
 
-Use `bun test` to run tests.
-
-```ts#index.test.ts
-import { test, expect } from "bun:test";
-
-test("hello world", () => {
-  expect(1).toBe(1);
-});
-```
-
-## Frontend
-
-Use HTML imports with `Bun.serve()`. Don't use `vite`. HTML imports fully support React, CSS, Tailwind.
-
-Server:
-
-```ts#index.ts
-import index from "./index.html"
-
-Bun.serve({
-  routes: {
-    "/": index,
-    "/api/users/:id": {
-      GET: (req) => {
-        return new Response(JSON.stringify({ id: req.params.id }));
-      },
-    },
-  },
-  // optional websocket support
-  websocket: {
-    open: (ws) => {
-      ws.send("Hello, world!");
-    },
-    message: (ws, message) => {
-      ws.send(message);
-    },
-    close: (ws) => {
-      // handle close
-    }
-  },
-  development: {
-    hmr: true,
-    console: true,
-  }
-})
-```
-
-HTML files can import .tsx, .jsx or .js files directly and Bun's bundler will transpile & bundle automatically. `<link>` tags can point to stylesheets and Bun's CSS bundler will bundle.
-
-```html#index.html
-<html>
-  <body>
-    <h1>Hello, world!</h1>
-    <script type="module" src="./frontend.tsx"></script>
-  </body>
-</html>
-```
-
-With the following `frontend.tsx`:
-
-```tsx#frontend.tsx
-import React from "react";
-import { createRoot } from "react-dom/client";
-
-// import .css files directly and it works
-import './index.css';
-
-const root = createRoot(document.body);
-
-export default function Frontend() {
-  return <h1>Hello, world!</h1>;
-}
-
-root.render(<Frontend />);
-```
-
-Then, run index.ts
-
-```sh
-bun --hot ./index.ts
-```
-
-For more information, read the Bun API docs in `node_modules/bun-types/docs/**.mdx`.
+- `bun install`, `bun run dev` (docs + HMR), `bun run typecheck`, `bun test`, `bunx <pkg>`
+- Server is `Bun.serve()` with HTML imports (`docs/index.html`): no vite/express; Bun bundles .tsx and CSS from `<script>`/`<link>` tags
+- Prefer `Bun.file` over `node:fs`; Bun auto-loads `.env`
+- API docs: `node_modules/bun-types/docs/**.mdx`
