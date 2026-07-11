@@ -1,4 +1,4 @@
-# protofi-2
+# Prototype Fidelity 2 Design System
 
 To install dependencies:
 
