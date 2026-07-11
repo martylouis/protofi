@@ -1,8 +1,9 @@
-import demo from "./demo/index.html";
+import docs from "./docs/index.html";
 
 const server = Bun.serve({
   routes: {
-    "/": demo,
+    // Docs use pathname routing client-side; serve the app for every path.
+    "/*": docs,
   },
   development: {
     hmr: true,
@@ -10,4 +11,4 @@ const server = Bun.serve({
   },
 });
 
-console.log(`Protofi demo running at ${server.url}`);
+console.log(`Protofi docs running at ${server.url}`);

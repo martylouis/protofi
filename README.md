@@ -2,19 +2,18 @@
 
 TypeScript React component library for low-fidelity prototypes, built on the `.agents/skills/prototype` skill. Grayscale, hard borders, hatched placeholders. Bun + React 19 + Tailwind v4.
 
-## Run the demo
+## Run the docs
 
 ```bash
 bun install
 bun run dev
 ```
 
-Open http://localhost:3000. Cycle variants with the floating bar or `←` `→` keys. Variants are URL-stable via `?variant=`.
+Open http://localhost:3000. Sidebar-layout doc site (`docs/`), built with the library itself:
 
-- `?variant=A` — component gallery
-- `?variant=B` — dashboard, card grid
-- `?variant=C` — dashboard, sidebar
-- `?variant=D` — dashboard, dense table
+- Guide: Introduction, Principles (UX/UI rules distilled from the skill)
+- Components: one page per primitive, live examples + code + props
+- Prototypes: `Variants` (live demo with the floating switcher), `PrototypeSwitcher`, `useVariant`
 
 ## Library
 
@@ -45,5 +44,5 @@ Implements the UI-prototype workflow from the skill:
 
 ## Scripts
 
-- `bun run dev` — demo server with HMR
+- `bun run dev` — docs site with HMR
 - `bun run typecheck` — `tsc --noEmit`
