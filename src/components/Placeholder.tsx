@@ -1,3 +1,4 @@
+import { Avatar as BaseAvatar } from "@base-ui/react/avatar";
 import type { HTMLAttributes } from "react";
 import { cx } from "../cx";
 
@@ -61,10 +62,14 @@ export function TextPlaceholder({
   );
 }
 
-export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
-  /** Initials to show; omit for an empty placeholder circle. */
+export interface AvatarProps
+  extends Omit<BaseAvatar.Root.Props, "className"> {
+  /** Initials fallback; shown when no image or while it fails/loads. */
   initials?: string;
+  /** Optional real image; initials (or hatch) show if it fails to load. */
+  src?: string;
   size?: "sm" | "md" | "lg";
+  className?: string;
 }
 
 const avatarSizes = {
@@ -73,18 +78,28 @@ const avatarSizes = {
   lg: "size-14 text-base",
 };
 
-export function Avatar({ initials, size = "md", className, ...props }: AvatarProps) {
+/** Base UI Avatar with lo-fi fallbacks: initials, or hatch when empty. */
+export function Avatar({
+  initials,
+  src,
+  size = "md",
+  className,
+  ...props
+}: AvatarProps) {
   return (
-    <div
+    <BaseAvatar.Root
       className={cx(
-        "flex shrink-0 items-center justify-center rounded-full border-2 border-ink font-bold uppercase",
+        "flex shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-ink font-bold uppercase",
         initials ? "bg-paper text-ink" : "bg-hatch",
         avatarSizes[size],
         className,
       )}
       {...props}
     >
-      {initials}
-    </div>
+      {src && (
+        <BaseAvatar.Image src={src} className="size-full object-cover" />
+      )}
+      {initials && <BaseAvatar.Fallback>{initials}</BaseAvatar.Fallback>}
+    </BaseAvatar.Root>
   );
 }
