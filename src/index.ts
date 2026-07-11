@@ -1,10 +1,9 @@
-// Protofi — lo-fi prototype component library.
+// Protofi — lo-fi prototype component library, built on Base UI.
+// Behavior (ARIA, focus, keyboard, positioning) comes from @base-ui/react;
+// the lo-fi skin and the prototype workflow are ours.
 
-// Lo-fi primitives
+// Lo-fi primitives (no behavior to outsource)
 export { Button, type ButtonProps } from "./components/Button";
-export { Input, Textarea, Select } from "./components/Input";
-export { Field, type FieldProps } from "./components/Field";
-export { Checkbox, Radio, Switch } from "./components/Choice";
 export {
   Card,
   CardHeader,
@@ -22,9 +21,24 @@ export {
   type AvatarProps,
 } from "./components/Placeholder";
 export { Table, THead, TBody, TR, TH, TD } from "./components/Table";
-export { Tabs, type TabsProps } from "./components/Tabs";
+
+// Base UI-backed components, lo-fi styled
+export { Input, Textarea, type InputProps } from "./components/Input";
+export { Field } from "./components/Field";
+export {
+  Checkbox,
+  Radio,
+  RadioGroup,
+  Switch,
+  type CheckboxProps,
+  type RadioProps,
+  type RadioGroupProps,
+  type SwitchProps,
+} from "./components/Choice";
+export { Select } from "./components/Select";
+export { Tabs } from "./components/Tabs";
+export { Dialog } from "./components/Dialog";
 export { Divider, type DividerProps } from "./components/Divider";
-export { Modal, type ModalProps } from "./components/Modal";
 
 // Prototype infrastructure (variant switching per the prototype skill)
 export { useVariant, type UseVariantResult } from "./prototype/useVariant";
